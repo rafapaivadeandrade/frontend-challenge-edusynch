@@ -1,0 +1,5 @@
+/* Add a custom arrow icon when the select is clicked */
+.select-arrow-up {
+  transform: rotate(180deg);
+  transition: transform 0.3s ease-in-out;
+}

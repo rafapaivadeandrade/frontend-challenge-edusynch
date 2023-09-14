@@ -1,0 +1,35 @@
+/* Hide the default arrows */
+input[type='number']::-webkit-inner-spin-button,
+input[type='number']::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Apply custom background images for arrows */
+input[type='number'] {
+  position: relative;
+}
+
+input[type='number']::after,
+input[type='number']::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 20px;
+  height: 20px;
+  background-repeat: no-repeat;
+  background-size: contain;
+  cursor: pointer;
+}
+
+input[type='number']::after {
+  right: 0;
+  background-image: url('/up.png');
+}
+
+input[type='number']::before {
+  bottom: 0;
+  right: 0;
+  background-image: url('/arrow.png');
+}
