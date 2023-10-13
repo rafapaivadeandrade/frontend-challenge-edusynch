@@ -38,8 +38,8 @@
   align-self: center;
 }
 img.menu-dropdown-user-image {
-  width: 44px;
-  height: 44px;
+  width: 24px;
+  height: 24px;
   max-height: initial;
   object-fit: cover;
   border-radius: 50%;
@@ -117,7 +117,7 @@ img.menu-dropdown-user-image {
   }
   .menu-dropdown-container {
     min-width: initial;
-    padding: 8px 1rem;
+    padding: 8px 0rem;
   }
   .menu-dropdown-nav a {
     width: 100%;

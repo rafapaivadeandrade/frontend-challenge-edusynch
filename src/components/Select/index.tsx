@@ -1,19 +1,29 @@
 import { useState } from 'react';
+import { useFetchWallet } from '../../../lib/walletContext';
 import './styles.css';
 
 interface Option {
-  value: string;
-  label: React.ReactNode;
+  value: number;
+  name: string;
+  imageLink: string;
+  abbvr: string;
 }
 
 interface SelectProps {
-  name: string;
   options: Option[];
+  setSelectedItem?: (item: Option | null) => void;
+  selectedItem?: Option | null;
+  exchangeRates?: object;
+  exchangeRatesvariation?: object;
 }
-
-const Select: React.FC<SelectProps> = ({ name, options, ...rest }: any) => {
+const Select: React.FC<SelectProps> = ({
+  options,
+  setSelectedItem,
+  selectedItem,
+  exchangeRates,
+}: any) => {
   const [open, setOpen] = useState(false);
-  const [isCryptoAdded, setIsCryptoAdded] = useState(false);
+  const { isCryptoAdded, setIsCryptoAdded } = useFetchWallet();
 
   return (
     <div className="selector w-full">
@@ -24,14 +34,13 @@ const Select: React.FC<SelectProps> = ({ name, options, ...rest }: any) => {
         {isCryptoAdded ? (
           <div className="flex flex-row gap-2 items-center">
             <img
-              src="https://avatars.githubusercontent.com/u/51189721?v=4"
-              // src={user?.avatar ? user?.avatar : AvatarIcon}
+              src={selectedItem?.image}
               width="12"
               alt=""
               className="w-[25px] rounded-2xl"
             />
-            <p className="text-TextBase text-[14px]">Rafael</p>
-            <p className="text-Secondary text-[14px]">BTC</p>
+            <p className="text-TextBase text-[14px]">{selectedItem?.name}</p>
+            <p className="text-Secondary text-[14px]">{selectedItem?.symbol}</p>
           </div>
         ) : (
           <p className="text-TextBase">{open ? 'Choose' : 'Choose Crypto'}</p>
@@ -47,50 +56,41 @@ const Select: React.FC<SelectProps> = ({ name, options, ...rest }: any) => {
           open ? 'absolute' : 'hidden'
         }`}
       >
-        <li
-          className="px-5 flex flex-row gap-2 items-center w-full p-4 list-none cursor-pointer relative border-b-1 border-Eye"
-          onClick={() => [setIsCryptoAdded(true), setOpen(false)]}
-        >
-          <div className="flex flex-row gap-2 items-center">
+        {/* {options.map((op: Option, index: number) => ( */}
+        {Object.keys(exchangeRates).map((currency: any, index: number) => (
+          <li
+            key={index}
+            className="px-5 flex flex-row gap-2 items-center w-full p-4 list-none cursor-pointer relative border-b-1 border-Eye"
+            onClick={() => [
+              setIsCryptoAdded(true),
+              setOpen(false),
+              console.log(exchangeRates[currency]),
+              setSelectedItem(exchangeRates[currency]),
+            ]}
+          >
+            <div className="flex flex-row gap-2 items-center">
+              <img
+                src={exchangeRates[currency].image}
+                // src={user?.avatar ? user?.avatar : AvatarIcon}
+                width="12"
+                alt=""
+                className="w-[25px] rounded-2xl"
+              />
+              <p className="text-TextBase text-[14px]">
+                {exchangeRates[currency].name}
+              </p>
+              <p className="text-Secondary text-[14px]">
+                {exchangeRates[currency].symbol.toUpperCase()}
+              </p>
+            </div>
             <img
-              src="https://avatars.githubusercontent.com/u/51189721?v=4"
-              // src={user?.avatar ? user?.avatar : AvatarIcon}
               width="12"
-              alt=""
-              className="w-[25px] rounded-2xl"
+              className="absolute right-5"
+              src="/rightarrow.png"
+              alt="right-arrow"
             />
-            <p className="text-TextBase text-[14px]">Rafael</p>
-            <p className="text-Secondary text-[14px]">BTC</p>
-          </div>
-          <img
-            width="12"
-            className="absolute right-5"
-            src="/rightarrow.png"
-            alt="right-arrow"
-          />
-        </li>
-        <li
-          className="px-5 flex flex-row gap-2 items-center w-full p-4 list-none cursor-pointer relative border-b-1 border-Eye"
-          onClick={() => [setIsCryptoAdded(true), setOpen(false)]}
-        >
-          <div className="flex flex-row gap-2 items-center">
-            <img
-              src="https://avatars.githubusercontent.com/u/51189721?v=4"
-              // src={user?.avatar ? user?.avatar : AvatarIcon}
-              width="12"
-              alt=""
-              className="w-[25px] rounded-2xl"
-            />
-            <p className="text-TextBase text-[14px]">Rafael</p>
-            <p className="text-Secondary text-[14px]">BTC</p>
-          </div>
-          <img
-            width="12"
-            className="absolute right-5"
-            src="/rightarrow.png"
-            alt="right-arrow"
-          />
-        </li>
+          </li>
+        ))}
       </ul>
     </div>
   );

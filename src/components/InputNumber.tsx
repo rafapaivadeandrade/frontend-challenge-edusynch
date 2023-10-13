@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 interface InputNumberProps {
   value: number;
@@ -11,7 +11,9 @@ const InputNumber: React.FC<InputNumberProps> = ({ value, onChange }) => {
   };
 
   const handleDecrement = () => {
-    onChange(value - 1);
+    if (value > 0) {
+      onChange(value - 1);
+    }
   };
 
   return (
@@ -19,9 +21,9 @@ const InputNumber: React.FC<InputNumberProps> = ({ value, onChange }) => {
       <input
         type="number"
         step="1.00"
-        className="w-full h-10 px-5 py-2 pr-[2.5rem] focus:outline-none text-TextBase"
+        className="w-full h-10 px-5 py-2 pr-[2.5rem] focus:outline-none text-gray-400"
         value={value.toFixed(2)}
-        onChange={e => onChange(parseInt(e.target.value))}
+        onChange={e => onChange(parseFloat(e.target.value))}
       />
       <div className="flex flex-col items-center justify-center gap-[6px]">
         <button className="arrow-button" onClick={handleIncrement}>

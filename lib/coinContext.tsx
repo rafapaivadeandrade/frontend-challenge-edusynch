@@ -3,7 +3,7 @@ import { createContext, useContext, useEffect, useState } from 'react';
 import axios from 'axios';
 
 const Coins = createContext({ coins: null, loading: false });
-const currencies = ['BTC', 'ETH'];
+const currencies = ['bitcoin', 'ethereum', 'cardano', 'ripple'];
 // const currencies2 = ['BTC', 'ETH', 'ADA', 'SOL'];
 const apiKey = process.env.NEXT_PUBLIC_API_KEY;
 // Obtém a data atual
@@ -19,15 +19,13 @@ export const CoinsProvider = ({ value, children }: any) => {
 
 export const useCoin = () => useContext(Coins);
 export const useFetchCoins = () => {
+  // const [exchangeRates, setExchangeRates] = useState({});
   const [exchangeRates, setExchangeRates] = useState({});
   const [exchangeRatesvariation, setExchangeRatesVariation] = useState({});
   const [actualCurrencies, setActualCurrencies] = useState(currencies);
 
   useEffect(() => {
     const fetchExchangeRates = async () => {
-      // onClick() => setActualCurrencies((prev) => {
-      //   return [...prev, 'USD','USD','USD', 'USD','USD','USD']
-      // })
       try {
         const responses = await Promise.all(
           actualCurrencies.map(async (currency, index) => {
@@ -97,7 +95,7 @@ export const useFetchCoins = () => {
         //   acc[currency] = rate;
         //   return acc;
         // }, {});
-        // console.log(responsesVariation);
+        console.log('coins:', responsesVariation);
         setExchangeRates(responses);
         setExchangeRatesVariation(exchangeRateDataVariation);
       } catch (error) {
@@ -105,8 +103,58 @@ export const useFetchCoins = () => {
       }
     };
 
-    fetchExchangeRates();
-  }, [actualCurrencies]);
+    const fetchCryptoData = async currencies => {
+      const responses = await Promise.all(
+        currencies.map(async (currency, index) => {
+          const delayDuration = index * 350; // Delay in milliseconds (1000 ms = 1 second)
 
-  return { exchangeRates, exchangeRatesvariation, setActualCurrencies };
+          await new Promise(resolve => setTimeout(resolve, delayDuration)); // Delay before the request
+
+          const response = await axios.get(
+            `https://cors-anywhere.herokuapp.com/https://api.coingecko.com/api/v3/coins/markets`,
+            {
+              params: {
+                vs_currency: 'usd', // Replace with your preferred currency
+                ids: currency,
+                order: 'market_cap_desc',
+                per_page: 3, // Number of cryptocurrencies to retrieve (adjust as needed)
+                page: 1,
+                sparkline: false,
+              },
+            },
+          );
+          return response.data;
+        }),
+      );
+
+      const tempCoins = responses.map(crypto => ({
+        id: crypto[0].id,
+        symbol: crypto[0].symbol,
+        name: crypto[0].name,
+        image: crypto[0].image,
+        current_price: crypto[0].current_price,
+        price_change_percentage_24h: crypto[0].price_change_percentage_24h,
+      }));
+
+      // Store tempCoins in local storage
+      localStorage.setItem('tempCoins', JSON.stringify(tempCoins));
+
+      console.log('coins:', tempCoins);
+      setExchangeRates(tempCoins);
+      return;
+    };
+
+    fetchCryptoData(currencies);
+    // }, []);
+    // }, [actualCurrencies]);
+  }, [currencies]);
+
+  return {
+    exchangeRates,
+    setExchangeRates,
+    exchangeRatesvariation,
+    setActualCurrencies,
+    actualCurrencies,
+    currencies,
+  };
 };

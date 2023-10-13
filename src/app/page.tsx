@@ -1,6 +1,3 @@
-'use client';
-import { useFetchCoins } from '../../lib/coinContext';
-import Layout from '../components/Layout/LayoutHome';
 import Home from './home/page';
 
 export const metadata = {
@@ -8,11 +5,5 @@ export const metadata = {
 };
 
 export default function Page() {
-  const { exchangeRates } = useFetchCoins();
-
-  return (
-    <Layout exchangeRates={exchangeRates}>
-      <Home></Home>
-    </Layout>
-  );
+  return <Home></Home>;
 }

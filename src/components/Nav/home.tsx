@@ -1,14 +1,29 @@
-import React, { useState } from 'react';
+'use client';
+import React from 'react';
 import Link from 'next/link';
 import SignInModal from '../SignInModal';
 import SignUpModal from '../SignUpModal';
 import { useFetchCoins } from '../../../lib/coinContext';
 import '../../styles/carousel.css';
+import {
+  formatCurrency,
+  formatPercentage,
+} from '../../utils/transformCurrency';
 
-const Nav: React.FC = () => {
-  const { exchangeRates, exchangeRatesvariation } = useFetchCoins();
-  const [isSignInModalOpen, setIsSignInModalOpen] = useState(false);
-  const [isSignUpModalOpen, setIsSignUpModalOpen] = useState(false);
+interface NavProps {
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+const Nav: React.FC<NavProps> = ({ setOpen }) => {
+  // const { exchangeRates } = useFetchCoins();
+  const tempCoinsString = localStorage.getItem('tempCoins');
+  const exchangeRates = JSON.parse(tempCoinsString as string);
+  const [isSignInModalOpen, setIsSignInModalOpen] = React.useState(false);
+  const [isSignUpModalOpen, setIsSignUpModalOpen] = React.useState(false);
+
+  const handleClick: React.MouseEventHandler<HTMLImageElement> = () => {
+    setOpen(prevValue => !prevValue);
+  };
 
   const openSignInModal = () => {
     setIsSignInModalOpen(true);
@@ -16,12 +31,16 @@ const Nav: React.FC = () => {
   const openSignUpModal = () => {
     setIsSignUpModalOpen(true);
   };
-
   const closeSignIn = () => {
     setIsSignInModalOpen(false);
   };
   const closeSignUp = () => {
     setIsSignUpModalOpen(false);
+  };
+
+  const scrollToSection = (sectionId: string) => {
+    const section = document.getElementById(sectionId);
+    section?.scrollIntoView({ behavior: 'smooth' });
   };
 
   return (
@@ -33,81 +52,160 @@ const Nav: React.FC = () => {
           w-full
           h-16
           shadow-md bg-gray-100 bg-opacity-50
-          px-28
+          lg:px-28
           py-4
+          lg:flex-row
+          md:flex-col
+          md:px-0
+          md:py-0
+          md:gap-1
+          md:h-[84px]
+          md:justify-end
+          sm:gap-2
+          sm:px-0
+          sm:flex-col
+          sm:justify-center
+          sm:h-20
+          sm:pb-0
+          sm:pt-5
+          sm:items-start
         "
     >
-      <div className="flex flex-row gap-6 items-center">
-        <Link href="/" passHref legacyBehavior>
-          <a>
-            {/* eslint-disable @next/next/no-img-element */}
-            <img src="/logo.png" width={124} height={21} alt="CoinSynch" />
-          </a>
-        </Link>
-        <Link href="/" passHref legacyBehavior>
-          <a>
-            <span className="text-base text-TextBase">About us</span>
-          </a>
-        </Link>
-        <Link href="/" passHref legacyBehavior>
-          <a>
-            <span className="text-base text-TextBase">Top Cryptos</span>
-          </a>
-        </Link>
-      </div>
-      <div className="flex flex-row gap-20 justify-center items-center">
-        <div className="carousel-container w-[360px]">
-          <div className="carousel-inner flex flex-row gap-6">
-            {Object.keys(exchangeRates).map((currency: any, index: number) => (
-              <div key={index} className="flex flex-row gap-2">
-                <span className="text-base text-TextBase">
-                  {exchangeRates[currency].currency}
-                </span>
-                <span className="text-base text-TextBase">
-                  {new Intl.NumberFormat('pt-BR', {
-                    style: 'currency',
-                    currency: 'BRL',
-                    minimumFractionDigits: 2,
-                    maximumFractionDigits: 2,
-                  }).format(exchangeRates[currency].rate)}
-                </span>
-                <span
-                  className={`text-base ${
-                    exchangeRatesvariation[exchangeRates[currency].currency] >=
-                    0
-                      ? 'text-Terciary'
-                      : 'text-Quaternary'
-                  }`}
-                >
-                  {new Intl.NumberFormat('pt-BR', {
-                    signDisplay: 'exceptZero',
-                  }).format(
-                    exchangeRatesvariation[
-                      exchangeRates[currency].currency
-                    ].toFixed(3),
-                  )}
-                </span>
-              </div>
-            ))}
-          </div>
-        </div>
-        <div className="flex flex-row gap-6 items-center">
+      <div className="flex justify-between lg:w-full md:items-center md:w-full md:px-12">
+        <div className="flex gap-6 items-center md:py-3 sm:w-full sm:justify-start sm:pl-4 sm:gap-32">
+          <Link href="/" passHref legacyBehavior>
+            <img
+              className="cursor-pointer"
+              src="/logo.png"
+              width={124}
+              height={21}
+              alt="CoinSynch"
+            />
+          </Link>
           <span
-            className="text-TextBase text-base cursor-pointer"
-            onClick={openSignInModal}
+            className="cursor-pointer text-base text-TextBase sm:hidden"
+            onClick={() => scrollToSection('aboutus')}
           >
-            Sign in
+            About us
           </span>
-          <div
-            onClick={openSignUpModal}
-            className="flex justify-center items-center bg-Primary py-2 px-4 rounded-3xl w-24 h-8 cursor-pointer"
+          <span
+            className="cursor-pointer text-base text-TextBase sm:hidden"
+            onClick={() => scrollToSection('topcryptos')}
           >
-            <span className="text-base text-white">Sign up</span>
+            Top Cryptos
+          </span>
+          <img
+            className="md:hidden sm:flex lg:hidden"
+            src="/burguer.png"
+            alt="burguer"
+            onClick={handleClick}
+          />
+        </div>
+        <div className="flex gap-20 justify-center items-center sm:hidden">
+          <div className="carousel-container lg:flex w-[360px] md:hidden sm:hidden">
+            <div className="carousel-inner flex flex-row gap-6">
+              {Object.keys(exchangeRates).map(
+                (currency: any, index: number) => (
+                  <div key={index} className="flex flex-row gap-2">
+                    <span className="text-base text-TextBase">
+                      {exchangeRates[currency].symbol.toUpperCase()}
+                    </span>
+                    <span className="text-base text-TextBase">
+                      {formatCurrency(exchangeRates[currency].current_price)}
+                    </span>
+                    {/* <span
+                      className={`text-base ${
+                        exchangeRatesvariation[
+                          exchangeRates[currency].currency
+                        ] >= 0
+                          ? 'text-Terciary'
+                          : 'text-Quaternary'
+                      }`}
+                    > */}
+                    <span
+                      className={`text-base ${
+                        exchangeRates[currency].price_change_percentage_24h >= 0
+                          ? 'text-Terciary'
+                          : 'text-Quaternary'
+                      }`}
+                    >
+                      {formatPercentage(
+                        exchangeRates[currency].price_change_percentage_24h,
+                      )}
+                      {/* {new Intl.NumberFormat('pt-BR', {
+                        signDisplay: 'exceptZero',
+                      }).format(
+                        exchangeRatesvariation[
+                          exchangeRates[currency].currency
+                        ].toFixed(3),
+                      )} */}
+                    </span>
+                  </div>
+                ),
+              )}
+            </div>
+          </div>
+          <div className="flex flex-row gap-6 items-center sm:hidden">
+            <span
+              className="text-TextBase text-base cursor-pointer"
+              onClick={openSignInModal}
+            >
+              Sign in
+            </span>
+            <div
+              onClick={openSignUpModal}
+              className="flex justify-center items-center bg-Primary py-2 px-4 rounded-3xl w-24 h-8 cursor-pointer"
+            >
+              <span className="text-base text-white">Sign up</span>
+            </div>
           </div>
         </div>
       </div>
-      {isSignInModalOpen && <SignInModal onClose={closeSignIn} />}
-      {isSignUpModalOpen && <SignUpModal onClose={closeSignUp} />}
+      <div className="carousel-container w-[360px] lg:hidden md:flex md:w-full sm:flex">
+        <div className="carousel-inner flex flex-row gap-6">
+          {/* {Object.keys(exchangeRates).map((currency: any, index: number) => ( */}
+          {Object.keys(exchangeRates).map((currency: any, index: number) => (
+            <div key={index} className="flex flex-row gap-2">
+              <span className="text-base text-TextBase">
+                {exchangeRates[currency].symbol.toUpperCase()}
+              </span>
+              <span className="text-base text-TextBase">
+                {formatCurrency(exchangeRates[currency].current_price)}
+              </span>
+              <span
+                className={`text-base ${
+                  exchangeRates[currency].price_change_percentage_24h >= 0
+                    ? 'text-Terciary'
+                    : 'text-Quaternary'
+                }`}
+              >
+                {formatPercentage(
+                  exchangeRates[currency].price_change_percentage_24h,
+                )}
+                {/* {new Intl.NumberFormat('pt-BR', {
+                  signDisplay: 'exceptZero',
+                }).format(
+                  exchangeRatesvariation[
+                    exchangeRates[currency].currency
+                  ].toFixed(3),
+                )} */}
+              </span>
+            </div>
+          ))}
+        </div>
+      </div>
+      {isSignInModalOpen && (
+        <SignInModal
+          onClose={closeSignIn}
+          setIsSignUpModalOpen={setIsSignUpModalOpen}
+        />
+      )}
+      {isSignUpModalOpen && (
+        <SignUpModal
+          onClose={closeSignUp}
+          setIsSignInModalOpen={setIsSignInModalOpen}
+        />
+      )}
     </nav>
   );
 };

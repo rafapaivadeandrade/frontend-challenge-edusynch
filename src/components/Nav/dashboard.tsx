@@ -1,10 +1,15 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Link from 'next/link';
-import { useFetchCoins } from '../../../lib/coinContext';
 import { MenuDropDownUser } from '../MenuDropdownUser';
 
-const Nav: React.FC = () => {
-  const { exchangeRates, exchangeRatesvariation } = useFetchCoins();
+interface NavProps {
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+const Nav: React.FC<NavProps> = ({ setOpen }) => {
+  const handleClick: React.MouseEventHandler<HTMLImageElement> = () => {
+    setOpen(prevValue => !prevValue);
+  };
 
   return (
     <nav
@@ -17,13 +22,27 @@ const Nav: React.FC = () => {
           shadow-md bg-gray-100 bg-opacity-50
           px-10
           py-4
+          md:bg-white
+          sm:flex-nowrap
+          sm:px-6
         "
     >
+      <img
+        className="md:block sm:block lg:hidden"
+        src="/burguer.png"
+        alt="burguer"
+        onClick={handleClick}
+      />
       <div className="flex flex-row gap-6 items-center">
         <Link href="/" passHref legacyBehavior>
           <a>
-            {/* eslint-disable @next/next/no-img-element */}
-            <img src="/logo.png" width={124} height={21} alt="CoinSynch" />
+            <img
+              src="/logo.png"
+              className="w-[94px] h-[16px]"
+              width={124}
+              height={21}
+              alt="CoinSynch"
+            />
           </a>
         </Link>
       </div>

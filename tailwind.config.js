@@ -107,7 +107,9 @@ module.exports = {
         0.5: '0.10rem',
         100: '448px',
       },
-      backgroundColor: {},
+      backgroundColor: {
+        Bege: '#FFF6E8',
+      },
       colors: {
         Primary: '#FBAB34',
         Secondary: '#8C8A97',
@@ -124,50 +126,21 @@ module.exports = {
         Green: '#149E55',
         Yellow: '#FFB94F',
         Border: '#F4F3F8',
+        TextButton: '#ACABB7',
       },
     },
     screens: {
-      '2xl': { max: '1535px' },
-      // => @media (max-width: 1535px) { ... }
+      // DESKTOP 1280px - 1366px - 1920px
+      // SEM IDENTIFICADOR
+      lg: { min: '1280px' },
+      // lg: { min: '1280px' },
+      // => @media (max-width: 1279px) { ... }
+      // TABLET 768px - 834px - 1279px
+      md: { min: '768px', max: '1279px' },
 
-      xl: { max: '1194px', min: '835px' },
-      // => @media (max-width: 1194px) { ... }
-
-      lg: { max: '834px', min: '431px' },
-      // => @media (max-width: 834px) { ... }
-
-      md: { max: '767px' },
       // => @media (max-width: 767px) { ... }
-
-      sm: { max: '639px' },
-      // => @media (max-width: 639px) { ... }
-
-      xsm: { max: '600px' },
-      // => @media (max-width: 600px) { ... }
-
-      xxsm: { max: '430px' },
-      // => @media (max-width: 430px) { ... }
-
-      minxxsm: { min: '431px' },
-      // => @media (min-width: 431px) { ... }
-
-      minsm: { min: '640px' },
-      // => @media (min-width: 640px) { ... }
-
-      minmd: { min: '768px' },
-      // => @media (min-width: 768px) { ... }
-
-      minlg: { min: '431px' },
-      // => @media (min-width: 1024px) { ... }
-
-      minxl: { min: '1280px' },
-      // => @media (min-width: 1280px) { ... }
-
-      min2xl: { min: '1195px' },
-      // => @media (min-width: 1536px) { ... }
-
-      min3xl: { min: '1535px' },
-      // => @media (max-width: 1535px) { ... }
+      // MOBILE 320px - 430px - 767px
+      sm: { max: '767px' },
     },
   },
   plugins: [],
