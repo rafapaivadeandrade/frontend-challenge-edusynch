@@ -5,14 +5,7 @@ import Image from 'next/image';
 import TransferCryptoModal from './TransferCryptoModal';
 import { Tooltip as ReactTooltip } from 'react-tooltip';
 import { formatCurrency, formatPercentage } from '../utils/transformCurrency';
-
-interface Option {
-  current_price: number | string;
-  price_change_percentage_24h: number;
-  name: string;
-  image: string;
-  symbol: string;
-}
+import { Option } from '../types';
 
 export default function Wallet({
   wallet,
@@ -24,7 +17,6 @@ export default function Wallet({
   setIsTransfered,
   handleAddCrypto,
   exchangeRates,
-  // exchangeRatesvariation,
 }) {
   const [isCryptoModalOpen, setisCryptoModalOpen] = React.useState(false);
   const [isTransferCryptoModalOpen, setisTransferCryptoModalOpen] =

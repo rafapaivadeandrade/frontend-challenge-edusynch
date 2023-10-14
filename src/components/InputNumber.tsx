@@ -1,9 +1,5 @@
 import React from 'react';
-
-interface InputNumberProps {
-  value: number;
-  onChange: (value: number) => void;
-}
+import { InputNumberProps } from '../types';
 
 const InputNumber: React.FC<InputNumberProps> = ({ value, onChange }) => {
   const handleIncrement = () => {

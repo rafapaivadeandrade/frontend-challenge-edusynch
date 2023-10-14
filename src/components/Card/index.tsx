@@ -1,14 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-
-interface CardProps {
-  data: {
-    title: string;
-    subtitle: string;
-    description: string;
-    image: string;
-  };
-}
+import { CardProps } from '../../types';
 
 const CSVCard: React.FC<CardProps> = ({ data }) => {
   return (

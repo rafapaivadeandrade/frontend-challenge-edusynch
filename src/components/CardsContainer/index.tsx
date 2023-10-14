@@ -1,15 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import CSVCard from '../Card';
-
-interface CardContainerProps {
-  data: {
-    title: string;
-    subtitle: string;
-    description: string;
-    image: string;
-  }[];
-}
+import { CardContainerProps } from '../../types';
 
 const CardContainer: React.FC<CardContainerProps> = ({ data }) => {
   const carousel = React.useRef<HTMLDivElement | null>(null);
@@ -29,7 +21,7 @@ const CardContainer: React.FC<CardContainerProps> = ({ data }) => {
       <motion.div
         className="w-max flex rounded-xl gap-2"
         drag="x"
-        dragConstraints={{ right: 0, left: -width }}
+        dragConstraints={{ right: 0, left: -width - 30 }}
         initial={{ x: 100 }}
         animate={{ x: 0 }}
         transition={{ duration: 0.8 }}

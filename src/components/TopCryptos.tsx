@@ -1,31 +1,20 @@
 import React from 'react';
-import { useFetchCoins } from '../../lib/coinContext';
 import { formatCurrency, formatPercentage } from '../utils/transformCurrency';
-
-type UserData = {
-  loading?: boolean;
-  name?: any;
-  gender: string;
-  email: string;
-  picture?: any;
-};
 
 export default function TopCryptos() {
   // const { exchangeRates, exchangeRatesvariation } = useFetchCoins();
-  const {
-    setActualCurrencies,
-    actualCurrencies,
-    currencies,
-    setExchangeRates,
-  } = useFetchCoins();
+  // const {
+  //   setActualCurrencies,
+  //   actualCurrencies,
+  //   currencies,
+  //   setExchangeRates,
+  // } = useFetchCoins();
   const tempCoinsString = localStorage.getItem('tempCoins');
   const exchangeRates = JSON.parse(tempCoinsString as string);
   const [openIndexes, setOpenIndexes] = React.useState<number[]>([]);
   const [loading, setLoading] = React.useState<boolean>(false);
-  const [data, setData] = React.useState<UserData[]>([]);
   const [showLoadLess, setShowLoadLess] = React.useState(false);
   let count = 6;
-  // let count = 4;
 
   // const fetchFakeData = () => {
   //   const fakeDataUrl = `https://randomuser.me/api/?results=${count}&inc=name,gender,email,nat,picture&noinfo`;
@@ -39,15 +28,15 @@ export default function TopCryptos() {
   const onLoadMore = () => {
     setLoading(true);
     if (!showLoadLess) {
-      currencies.push(
-        'litecoin',
-        'polkadot',
-        'chainlink',
-        'stellar',
-        'solana',
-        'binancecoin',
-        'eos',
-      );
+      // currencies.push(
+      //   'litecoin',
+      //   'polkadot',
+      //   'chainlink',
+      //   'stellar',
+      //   'solana',
+      //   'binancecoin',
+      //   'eos',
+      // );
       // count += 6;
       // fetchFakeData(); // Fetch data with the updated count
       // setActualCurrencies(prevState => {
@@ -66,7 +55,7 @@ export default function TopCryptos() {
       const filteredCurrencies = exchangeRates.filter(
         (_, index) => index < count,
       );
-      setExchangeRates(filteredCurrencies);
+      // setExchangeRates(filteredCurrencies);
       localStorage.setItem('tempCoins', JSON.stringify(filteredCurrencies));
       // const result = data.filter((_, index) => index < count);
       // Removing an item from the 'data' array based on a condition

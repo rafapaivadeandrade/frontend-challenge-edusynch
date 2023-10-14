@@ -1,42 +1,22 @@
-import { createContext, useContext, useState } from 'react';
+import React from 'react';
+import { Option, TransferOption } from '../src/types';
 
-// interface Option {
-//   value: number | string;
-//   name: string;
-//   imageLink: string;
-//   abbvr: string;
-//   boolean?: boolean;
-// }
-interface Option {
-  current_price: number | string;
-  price_change_percentage_24h: number;
-  name: string;
-  image: string;
-  symbol: string;
-  boolean?: boolean;
-}
-
-interface TransferOption {
-  service?: string;
-  boolean?: boolean;
-}
-
-const Wallet = createContext({});
+const Wallet = React.createContext({});
 
 export const WalletProvider = ({ value, children }: any) => {
   return <Wallet.Provider value={value}>{children}</Wallet.Provider>;
 };
 
-export const useWallet = () => useContext(Wallet);
+export const useWallet = () => React.useContext(Wallet);
 
 export const useFetchWallet = () => {
-  const [wallet, setWallet] = useState<Option[]>([]);
-  const [balance, setBalance] = useState<number>(0);
-  const [numberValue, setNumberValue] = useState<number | string>(0);
-  const [isCryptoAdded, setIsCryptoAdded] = useState<boolean>(false);
-  const [isTransfered, setIsTransfered] = useState<TransferOption>();
+  const [wallet, setWallet] = React.useState<Option[]>([]);
+  const [balance, setBalance] = React.useState<number>(0);
+  const [numberValue, setNumberValue] = React.useState<number | string>(0);
+  const [isCryptoAdded, setIsCryptoAdded] = React.useState<boolean>(false);
+  const [isTransfered, setIsTransfered] = React.useState<TransferOption>();
   const initialSelectedItem: Option | null = null;
-  const [selectedItem, setSelectedItem] = useState<Option | null>(
+  const [selectedItem, setSelectedItem] = React.useState<Option | null>(
     initialSelectedItem,
   );
 

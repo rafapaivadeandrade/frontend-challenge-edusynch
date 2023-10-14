@@ -1,20 +1,8 @@
-import { useEffect, useState } from 'react';
-
-interface User {
-  name: {
-    first: string;
-    last: string;
-    title: string;
-  };
-  picture: {
-    large: string;
-    medium: string;
-    thumbnail: string;
-  };
-}
+import React from 'react';
+import { User } from '../types';
 
 export const useUser = () => {
-  const [user, setUser] = useState<User>();
+  const [user, setUser] = React.useState<User>();
 
   const fetchFakeData = async () => {
     try {
@@ -27,7 +15,7 @@ export const useUser = () => {
     }
   };
 
-  useEffect(() => {
+  React.useEffect(() => {
     fetchFakeData();
   }, []);
 

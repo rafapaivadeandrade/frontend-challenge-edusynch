@@ -1,22 +1,7 @@
 import { useState } from 'react';
+import { SelectProps, TransferOption } from '../../types';
 import './styles.css';
 
-interface Option {
-  service: string;
-  boolean: boolean;
-}
-
-interface TransferOption {
-  service: string;
-  boolean?: boolean;
-}
-
-interface SelectProps {
-  name: string;
-  options: Option[];
-  isTransfered: TransferOption[];
-  setIsTransfered?: (item: TransferOption) => void;
-}
 const Select: React.FC<SelectProps> = ({
   options,
   isTransfered,
@@ -49,7 +34,7 @@ const Select: React.FC<SelectProps> = ({
           open ? 'absolute' : 'hidden'
         }`}
       >
-        {options.map((op: Option, index: number) => (
+        {options.map((op: TransferOption, index: number) => (
           <li
             key={index}
             className="px-5 flex flex-row gap-2 items-center w-full p-4 list-none cursor-pointer relative border-b-1 border-Eye"

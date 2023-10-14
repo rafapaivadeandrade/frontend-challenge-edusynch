@@ -3,10 +3,7 @@ import React from 'react';
 import Nav from '../../components/Nav/dashboard';
 import Menu from '../Menu';
 import Footer from '../Footer';
-
-interface LayoutProps {
-  children: React.ReactNode;
-}
+import { LayoutProps } from '../../types';
 
 const Layout = ({ children }: LayoutProps) => {
   const [open, setOpen] = React.useState(false);

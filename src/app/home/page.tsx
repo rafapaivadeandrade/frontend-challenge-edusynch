@@ -1,21 +1,40 @@
 'use client';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import ForYourCompanyContainer from '../../components/ForYourCompany';
 import TopCryptos from '../../components/TopCryptos';
 import Newsletter from '../../components/Newsletter';
 import Footer from '../../components/Footer';
 import SignUpModal from '../../components/SignUpModal';
 import SignInModal from '../../components/SignInModal';
-import '../../styles/carousel.css';
 import Layout from '../../components/Layout/LayoutHome';
+import { motion } from 'framer-motion';
 
 const Home: React.FC = () => {
-  const [showFirstImage, setShowFirstImage] = useState(true);
-  const [screenWidth, setScreenWidth] = useState(
-    typeof window !== 'undefined' ? window.innerWidth : 1440,
-  );
-  const [isSignInModalOpen, setIsSignInModalOpen] = useState(false);
-  const [isSignUpModalOpen, setIsSignUpModalOpen] = useState(false);
+  const carousel = React.useRef<HTMLDivElement | null>(null);
+  const [isSignInModalOpen, setIsSignInModalOpen] = React.useState(false);
+  const [isSignUpModalOpen, setIsSignUpModalOpen] = React.useState(false);
+  const [width, setWidth] = React.useState(0);
+
+  React.useEffect(() => {
+    if (carousel.current) {
+      setWidth(carousel.current.scrollWidth - carousel.current.offsetWidth);
+    }
+  }, []);
+
+  const imagesData = [
+    {
+      src: '/smilingwoman.png',
+      alt: 'woman',
+      className: 'block h-fit',
+      style: { width: 'inherit' },
+    },
+    {
+      src: '/smilinguy.png',
+      alt: 'guy',
+      className: 'block h-fit',
+      style: {},
+    },
+  ];
 
   const openSignUpModal = () => {
     setIsSignUpModalOpen(true);
@@ -26,23 +45,6 @@ const Home: React.FC = () => {
   const closeSignUp = () => {
     setIsSignUpModalOpen(false);
   };
-
-  useEffect(() => {
-    const handleResize = () => {
-      setScreenWidth(window.innerWidth);
-    };
-
-    window.addEventListener('resize', handleResize);
-
-    const interval = setInterval(() => {
-      setShowFirstImage(prevShowFirstImage => !prevShowFirstImage);
-    }, 20000); // Switch images every 20 seconds
-
-    return () => {
-      clearInterval(interval); // Clear the interval when the component unmounts
-      window.removeEventListener('resize', handleResize);
-    };
-  }, []);
 
   return (
     <Layout>
@@ -87,23 +89,50 @@ const Home: React.FC = () => {
             </div>
           </div>
           <div
-            id="carouselimages"
-            className="flex flex-row w-1/2 justify-center -mt-3 sm:hidden"
+            className="flex flex-row w-1/2 justify-end -mt-3 sm:hidden"
             style={{ position: 'relative', overflow: 'hidden' }}
           >
-            <img
-              src="/smilingwoman.png"
-              alt="woman"
-              className={`${showFirstImage ? 'block h-fit' : 'hidden w-0'}`}
-              style={{ width: 'inherit' }}
-            />
-            <img
-              src="/smilinguy.png"
-              alt="guy"
-              className={`${
-                !showFirstImage ? 'block w-fit h-fit' : 'hidden w-0'
-              }`}
-            />
+            <motion.div
+              ref={carousel}
+              className="cursor-grab overflow-hidden relative"
+              whileTap={{ cursor: 'grabbing' }}
+            >
+              <motion.div
+                className="w-max flex"
+                drag="x"
+                dragConstraints={{ right: 0, left: -500 }}
+                initial={{ x: 100 }}
+                animate={{ x: 0 }}
+                transition={{ duration: 0.8 }}
+              >
+                {imagesData.map((image, index: number) => (
+                  <motion.div
+                    className={`pointer-events-none min-h-[200px] rounded overflow-hidden bg-white ${
+                      index === 0
+                        ? 'min-w-[32%] flex justify-end'
+                        : 'min-w-[55%] opacity-50'
+                    }`}
+                  >
+                    <div
+                      key={index}
+                      className={`${
+                        index === 0
+                          ? 'lg:w-[92%] md:w-[84%] pl-4'
+                          : 'md:w-[85%]'
+                      } flex flex-col gap-4`}
+                    >
+                      <img
+                        key={index}
+                        src={image.src}
+                        alt={image.alt}
+                        className={image.className}
+                        style={image.style}
+                      />
+                    </div>
+                  </motion.div>
+                ))}
+              </motion.div>
+            </motion.div>
           </div>
         </div>
         <ForYourCompanyContainer />

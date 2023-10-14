@@ -1,8 +1,8 @@
 'use client';
-import { createContext, useContext, useEffect, useState } from 'react';
+import React from 'react';
 import axios from 'axios';
 
-const Coins = createContext({ coins: null, loading: false });
+const Coins = React.createContext({ coins: null, loading: false });
 const currencies = ['bitcoin', 'ethereum', 'cardano', 'ripple'];
 // const currencies2 = ['BTC', 'ETH', 'ADA', 'SOL'];
 const apiKey = process.env.NEXT_PUBLIC_API_KEY;
@@ -17,14 +17,16 @@ export const CoinsProvider = ({ value, children }: any) => {
   return <Coins.Provider value={value}>{children}</Coins.Provider>;
 };
 
-export const useCoin = () => useContext(Coins);
+export const useCoin = () => React.useContext(Coins);
 export const useFetchCoins = () => {
   // const [exchangeRates, setExchangeRates] = useState({});
-  const [exchangeRates, setExchangeRates] = useState({});
-  const [exchangeRatesvariation, setExchangeRatesVariation] = useState({});
-  const [actualCurrencies, setActualCurrencies] = useState(currencies);
+  const [exchangeRates, setExchangeRates] = React.useState({});
+  const [exchangeRatesvariation, setExchangeRatesVariation] = React.useState(
+    {},
+  );
+  const [actualCurrencies, setActualCurrencies] = React.useState(currencies);
 
-  useEffect(() => {
+  React.useEffect(() => {
     const fetchExchangeRates = async () => {
       try {
         const responses = await Promise.all(
@@ -111,7 +113,8 @@ export const useFetchCoins = () => {
           await new Promise(resolve => setTimeout(resolve, delayDuration)); // Delay before the request
 
           const response = await axios.get(
-            `https://cors-anywhere.herokuapp.com/https://api.coingecko.com/api/v3/coins/markets`,
+            // `https://cors-anywhere.herokuapp.com/https://api.coingecko.com/api/v3/coins/markets`,
+            `https://api.coingecko.com/api/v3/coins/markets`,
             {
               params: {
                 vs_currency: 'usd', // Replace with your preferred currency

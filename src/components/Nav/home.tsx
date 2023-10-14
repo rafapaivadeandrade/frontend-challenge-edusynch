@@ -4,20 +4,17 @@ import Link from 'next/link';
 import SignInModal from '../SignInModal';
 import SignUpModal from '../SignUpModal';
 import { useFetchCoins } from '../../../lib/coinContext';
-import '../../styles/carousel.css';
 import {
   formatCurrency,
   formatPercentage,
 } from '../../utils/transformCurrency';
-
-interface NavProps {
-  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
-}
+import { NavProps } from '../../types';
+import '../../styles/carousel.css';
 
 const Nav: React.FC<NavProps> = ({ setOpen }) => {
-  // const { exchangeRates } = useFetchCoins();
-  const tempCoinsString = localStorage.getItem('tempCoins');
-  const exchangeRates = JSON.parse(tempCoinsString as string);
+  const { exchangeRates } = useFetchCoins();
+  // const tempCoinsString = localStorage.getItem('tempCoins');
+  // const exchangeRates = JSON.parse(tempCoinsString as string);
   const [isSignInModalOpen, setIsSignInModalOpen] = React.useState(false);
   const [isSignUpModalOpen, setIsSignUpModalOpen] = React.useState(false);
 

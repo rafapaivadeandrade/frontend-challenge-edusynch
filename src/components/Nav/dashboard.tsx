@@ -1,10 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { MenuDropDownUser } from '../MenuDropdownUser';
-
-interface NavProps {
-  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
-}
+import { NavProps } from '../../types';
 
 const Nav: React.FC<NavProps> = ({ setOpen }) => {
   const handleClick: React.MouseEventHandler<HTMLImageElement> = () => {

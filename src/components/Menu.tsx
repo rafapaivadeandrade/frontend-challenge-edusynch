@@ -1,9 +1,6 @@
 import { Tooltip as ReactTooltip } from 'react-tooltip';
 import { BackArrowIcon } from '../icons/icons';
-
-interface MenuProps {
-  isOpen: boolean;
-}
+import { MenuProps } from '../types';
 
 const Menu: React.FC<MenuProps> = ({ isOpen }) => {
   const goBack = () => {

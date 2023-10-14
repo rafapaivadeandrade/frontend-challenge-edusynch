@@ -1,21 +1,8 @@
 import { useState } from 'react';
 import { useFetchWallet } from '../../../lib/walletContext';
+import { SelectProps } from '../../types';
 import './styles.css';
 
-interface Option {
-  value: number;
-  name: string;
-  imageLink: string;
-  abbvr: string;
-}
-
-interface SelectProps {
-  options: Option[];
-  setSelectedItem?: (item: Option | null) => void;
-  selectedItem?: Option | null;
-  exchangeRates?: object;
-  exchangeRatesvariation?: object;
-}
 const Select: React.FC<SelectProps> = ({
   options,
   setSelectedItem,
