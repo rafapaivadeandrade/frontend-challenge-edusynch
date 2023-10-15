@@ -45,19 +45,10 @@ export const useFetchWallet = () => {
                 ...prevState,
                 boolean: undefined,
               }));
+
               wallet.splice(existingItemIndex, 1); // Remove 1 element at existingItemIndex
-              // Create a new array without the removed item
-              // const updatedWallet = wallet.filter(
-              //   (item, index) => index !== existingItemIndex,
-              // );
-              // setWallet(updatedWallet);
-              // Create a new array without the removed item
-              // const updatedWallet = [
-              //   ...wallet.slice(0, existingItemIndex),
-              //   ...wallet.slice(existingItemIndex + 1),
-              // ];
-              // setWallet(updatedWallet);
               setWallet([...wallet]);
+
               if (existingValue < newValue) {
                 setBalance(prevValue => {
                   return prevValue - existingValue;
@@ -78,7 +69,6 @@ export const useFetchWallet = () => {
             // Add the values
             const accumulatedValue = existingValue + newValue;
             existingItem.current_price = accumulatedValue;
-            console.log('test2', existingItem.current_price);
             setBalance(prevValue => {
               return prevValue + newValue;
             });
@@ -94,7 +84,6 @@ export const useFetchWallet = () => {
           price_change_percentage_24h: selectedItem.price_change_percentage_24h,
         };
 
-        // setWallet([...wallet, newItem]);
         setWallet(prevValue => {
           const value = parseFloat(newItem.current_price as unknown as string);
 

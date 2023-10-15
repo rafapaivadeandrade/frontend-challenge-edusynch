@@ -1,11 +1,10 @@
 'use client';
 import React from 'react';
-import axios from 'axios';
 import useAxios from '../src/hooks/useAxios';
+import { MockedData } from './mockedData';
 
 const Coins = React.createContext({ coins: null, loading: false });
 const currencies = ['bitcoin', 'ethereum', 'cardano', 'ripple'];
-// const currencies2 = ['BTC', 'ETH', 'ADA', 'SOL'];
 const apiKey = process.env.NEXT_PUBLIC_API_KEY;
 // Obtém a data atual
 const dataAtual = new Date();
@@ -27,83 +26,78 @@ export const useFetchCoins = () => {
   const [actualCurrencies, setActualCurrencies] = React.useState(currencies);
 
   React.useEffect(() => {
-    const fetchExchangeRates = async () => {
-      try {
-        const responses = await Promise.all(
-          actualCurrencies.map(async (currency, index) => {
-            const delayDuration = index * 350; // Delay in milliseconds (1000 ms = 1 second)
+    // const fetchExchangeRates = async () => {
+    //   try {
+    //     const responses = await Promise.all(
+    //       actualCurrencies.map(async (currency, index) => {
+    //         const delayDuration = index * 350; // Delay in milliseconds (1000 ms = 1 second)
 
-            await new Promise(resolve => setTimeout(resolve, delayDuration)); // Delay before the request
-            const response = await axios.get(
-              `https://rest.coinapi.io/v1/exchangerate/${currency}/BRL`,
-              {
-                headers: {
-                  'X-CoinAPI-Key': apiKey,
-                  // 'X-CoinAPI-Key': 'ECA43654-6E72-48D3-A084-9BB785976D85',
-                },
-              },
-            );
-            return {
-              currency,
-              rate: response.data.rate,
-              time: response.data.time,
-            };
-          }),
-        );
-        const responsesVariation = await Promise.all(
-          responses.map(async (currency, index) => {
-            const delayDuration = index * 350; // Delay in milliseconds (1000 ms = 1 second)
+    //         await new Promise(resolve => setTimeout(resolve, delayDuration)); // Delay before the request
+    //         const response = await axios.get(
+    //           `https://rest.coinapi.io/v1/exchangerate/${currency}/BRL`,
+    //           {
+    //             headers: {
+    //               'X-CoinAPI-Key': apiKey,
+    //               // 'X-CoinAPI-Key': 'ECA43654-6E72-48D3-A084-9BB785976D85',
+    //             },
+    //           },
+    //         );
+    //         return {
+    //           currency,
+    //           rate: response.data.rate,
+    //           time: response.data.time,
+    //         };
+    //       }),
+    //     );
+    //     const responsesVariation = await Promise.all(
+    //       responses.map(async (currency, index) => {
+    //         const delayDuration = index * 350; // Delay in milliseconds (1000 ms = 1 second)
 
-            await new Promise(resolve => setTimeout(resolve, delayDuration)); // Delay before the request
-            const responseVariation = await axios.get(
-              `https://rest.coinapi.io/v1/exchangerate/${currency.currency}/BRL?time=${dataISO}`,
-              {
-                headers: {
-                  'X-CoinAPI-Key': apiKey,
-                },
-              },
-            );
-            return {
-              currency: currency.currency,
-              previousRate: responseVariation.data.rate,
-              actualRate: currency.rate,
-            };
-          }),
-        );
-        // Variação Diária (%) = ((Preço Atual - Preço Anterior) / Preço Anterior) * 100
-        // const responsesVariation = [
-        //   {
-        //     currency: 'BTC',
-        //     actualRate: 146006.90818917067,
-        //     previousRate: 146006.99818917067,
-        //   },
-        //   {
-        //     currency: 'ETH',
-        //     actualRate: 9156.11723663738,
-        //     previousRate: 9156.10723663738,
-        //   },
-        // ];
-        const exchangeRateDataVariation =
-          responsesVariation &&
-          responsesVariation.reduce(
-            (acc, { currency, previousRate, actualRate }: any) => {
-              acc[currency] =
-                ((actualRate - previousRate) / previousRate) * 100;
-              return acc;
-            },
-            {},
-          );
-        // const exchangeRateDataVariation = responses.reduce((acc, { currency, rate }) => {
-        //   acc[currency] = rate;
-        //   return acc;
-        // }, {});
-        console.log('coins:', responsesVariation);
-        setExchangeRates(responses);
-        setExchangeRatesVariation(exchangeRateDataVariation);
-      } catch (error) {
-        console.error('Error fetching exchange rates:', error);
-      }
-    };
+    //         await new Promise(resolve => setTimeout(resolve, delayDuration)); // Delay before the request
+    //         const responseVariation = await axios.get(
+    //           `https://rest.coinapi.io/v1/exchangerate/${currency.currency}/BRL?time=${dataISO}`,
+    //           {
+    //             headers: {
+    //               'X-CoinAPI-Key': apiKey,
+    //             },
+    //           },
+    //         );
+    //         return {
+    //           currency: currency.currency,
+    //           previousRate: responseVariation.data.rate,
+    //           actualRate: currency.rate,
+    //         };
+    //       }),
+    //     );
+    //     // Variação Diária (%) = ((Preço Atual - Preço Anterior) / Preço Anterior) * 100
+    //     // const responsesVariation = [
+    //     //   {
+    //     //     currency: 'BTC',
+    //     //     actualRate: 146006.90818917067,
+    //     //     previousRate: 146006.99818917067,
+    //     //   },
+    //     //   {
+    //     //     currency: 'ETH',
+    //     //     actualRate: 9156.11723663738,
+    //     //     previousRate: 9156.10723663738,
+    //     //   },
+    //     // ];
+    //     const exchangeRateDataVariation =
+    //       responsesVariation &&
+    //       responsesVariation.reduce(
+    //         (acc, { currency, previousRate, actualRate }: any) => {
+    //           acc[currency] =
+    //             ((actualRate - previousRate) / previousRate) * 100;
+    //           return acc;
+    //         },
+    //         {},
+    //       );
+    //     setExchangeRates(responses);
+    //     setExchangeRatesVariation(exchangeRateDataVariation);
+    //   } catch (error) {
+    //     console.error('Error fetching exchange rates:', error);
+    //   }
+    // };
 
     const fetchCryptoData = async currencies => {
       const responses = await Promise.all(
@@ -143,44 +137,7 @@ export const useFetchCoins = () => {
       // localStorage.setItem('tempCoins', JSON.stringify(tempCoins));
 
       setExchangeRates(tempCoins);
-      // setExchangeRates([
-      //   {
-      //     id: 'bitcoin',
-      //     symbol: 'btc',
-      //     name: 'Bitcoin',
-      //     image:
-      //       'https://assets.coingecko.com/coins/images/1/large/bitcoin.png?1696501400',
-      //     current_price: 26905,
-      //     price_change_percentage_24h: 0.46803,
-      //   },
-      //   {
-      //     id: 'ethereum',
-      //     symbol: 'eth',
-      //     name: 'Ethereum',
-      //     image:
-      //       'https://assets.coingecko.com/coins/images/279/large/ethereum.png?1696501628',
-      //     current_price: 1553.02,
-      //     price_change_percentage_24h: 0.43943,
-      //   },
-      //   {
-      //     id: 'cardano',
-      //     symbol: 'ada',
-      //     name: 'Cardano',
-      //     image:
-      //       'https://assets.coingecko.com/coins/images/975/large/cardano.png?1696502090',
-      //     current_price: 0.247083,
-      //     price_change_percentage_24h: -0.15113,
-      //   },
-      //   {
-      //     id: 'ripple',
-      //     symbol: 'xrp',
-      //     name: 'XRP',
-      //     image:
-      //       'https://assets.coingecko.com/coins/images/44/large/xrp-symbol-white-128.png?1696501442',
-      //     current_price: 0.486232,
-      //     price_change_percentage_24h: 0.84624,
-      //   },
-      // ]);
+      // setExchangeRates(MockedData);
     };
     fetchCryptoData(currencies);
   }, []);
