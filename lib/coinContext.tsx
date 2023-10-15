@@ -1,6 +1,7 @@
 'use client';
 import React from 'react';
 import axios from 'axios';
+import useAxios from '../src/hooks/useAxios';
 
 const Coins = React.createContext({ coins: null, loading: false });
 const currencies = ['bitcoin', 'ethereum', 'cardano', 'ripple'];
@@ -19,7 +20,6 @@ export const CoinsProvider = ({ value, children }: any) => {
 
 export const useCoin = () => React.useContext(Coins);
 export const useFetchCoins = () => {
-  // const [exchangeRates, setExchangeRates] = useState({});
   const [exchangeRates, setExchangeRates] = React.useState({});
   const [exchangeRatesvariation, setExchangeRatesVariation] = React.useState(
     {},
@@ -112,19 +112,19 @@ export const useFetchCoins = () => {
 
           await new Promise(resolve => setTimeout(resolve, delayDuration)); // Delay before the request
 
-          const response = await axios.get(
+          const { response } = useAxios(
             // `https://cors-anywhere.herokuapp.com/https://api.coingecko.com/api/v3/coins/markets`,
-            `https://api.coingecko.com/api/v3/coins/markets`,
-            {
-              params: {
-                vs_currency: 'usd', // Replace with your preferred currency
-                ids: currency,
-                order: 'market_cap_desc',
-                per_page: 3, // Number of cryptocurrencies to retrieve (adjust as needed)
-                page: 1,
-                sparkline: false,
-              },
-            },
+            `coins/markets?vs_currency=usd&ids=${currency}&order=market_cap_desc&per_page=3&page=1&sparkline=false`,
+            // {
+            //   params: {
+            //     vs_currency: 'usd', // Replace with your preferred currency
+            //     ids: currency,
+            //     order: 'market_cap_desc',
+            //     per_page: 3, // Number of cryptocurrencies to retrieve (adjust as needed)
+            //     page: 1,
+            //     sparkline: false,
+            //   },
+            // },
           );
           return response.data;
         }),
@@ -139,18 +139,51 @@ export const useFetchCoins = () => {
         price_change_percentage_24h: crypto[0].price_change_percentage_24h,
       }));
 
-      // Store tempCoins in local storage
-      localStorage.setItem('tempCoins', JSON.stringify(tempCoins));
+      // // Store tempCoins in local storage
+      // localStorage.setItem('tempCoins', JSON.stringify(tempCoins));
 
-      console.log('coins:', tempCoins);
       setExchangeRates(tempCoins);
-      return;
+      // setExchangeRates([
+      //   {
+      //     id: 'bitcoin',
+      //     symbol: 'btc',
+      //     name: 'Bitcoin',
+      //     image:
+      //       'https://assets.coingecko.com/coins/images/1/large/bitcoin.png?1696501400',
+      //     current_price: 26905,
+      //     price_change_percentage_24h: 0.46803,
+      //   },
+      //   {
+      //     id: 'ethereum',
+      //     symbol: 'eth',
+      //     name: 'Ethereum',
+      //     image:
+      //       'https://assets.coingecko.com/coins/images/279/large/ethereum.png?1696501628',
+      //     current_price: 1553.02,
+      //     price_change_percentage_24h: 0.43943,
+      //   },
+      //   {
+      //     id: 'cardano',
+      //     symbol: 'ada',
+      //     name: 'Cardano',
+      //     image:
+      //       'https://assets.coingecko.com/coins/images/975/large/cardano.png?1696502090',
+      //     current_price: 0.247083,
+      //     price_change_percentage_24h: -0.15113,
+      //   },
+      //   {
+      //     id: 'ripple',
+      //     symbol: 'xrp',
+      //     name: 'XRP',
+      //     image:
+      //       'https://assets.coingecko.com/coins/images/44/large/xrp-symbol-white-128.png?1696501442',
+      //     current_price: 0.486232,
+      //     price_change_percentage_24h: 0.84624,
+      //   },
+      // ]);
     };
-
     fetchCryptoData(currencies);
-    // }, []);
-    // }, [actualCurrencies]);
-  }, [currencies]);
+  }, []);
 
   return {
     exchangeRates,

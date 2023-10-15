@@ -25,7 +25,6 @@ export default function Wallet({
   const closeCryptoModal = () => {
     setisCryptoModalOpen(false);
     setisTransferCryptoModalOpen(false);
-    // setIsCryptoAdded(false);
   };
 
   return (
@@ -104,10 +103,19 @@ export default function Wallet({
                           {index + 1 < 10 ? `0${index + 1}` : index + 1}
                         </td>
                         <td
-                          className="px-4 py-2 text-base text-gray-500"
+                          className="flex items-center gap-3 px-4 py-2 text-base text-gray-500 sm:gap-1"
                           style={{ zIndex: 1 }}
                         >
-                          {wal.name}
+                          <img
+                            src={wal.image}
+                            width={32}
+                            height={32}
+                            alt="Coin"
+                          />
+                          <span className="text-gray-500">{wal.name}</span>
+                          <span className="text-[14px] text-TextBase">
+                            {wal.symbol.toUpperCase()}
+                          </span>
                         </td>
                         <td
                           className="px-4 py-2 text-base text-gray-500 text-center"

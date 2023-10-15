@@ -2,11 +2,12 @@ import React from 'react';
 import Wallet from '../Wallet';
 import Info from '../Info';
 import { useFetchWallet } from '../../../lib/walletContext';
+import { useFetchCoins } from '../../../lib/coinContext';
 
 const WalletContainer: React.FC = () => {
   // To retrieve tempCoins from local storage
-  const tempCoinsString = localStorage.getItem('tempCoins');
-  // const { exchangeRates, exchangeRatesvariation } = useFetchCoins();
+  // const tempCoinsString = localStorage.getItem('tempCoins');
+  const { exchangeRates } = useFetchCoins();
   const {
     wallet,
     selectedItem,
@@ -21,7 +22,7 @@ const WalletContainer: React.FC = () => {
 
   return (
     <>
-      <Info balance={balance} />
+      <Info balance={balance} exchangeRates={exchangeRates} />
       <Wallet
         wallet={wallet}
         selectedItem={selectedItem}
@@ -31,8 +32,8 @@ const WalletContainer: React.FC = () => {
         isTransfered={isTransfered}
         setIsTransfered={setIsTransfered}
         handleAddCrypto={handleAddCrypto}
-        exchangeRates={JSON.parse(tempCoinsString as string)}
-        // exchangeRatesvariation={exchangeRatesvariation}
+        // exchangeRates={JSON.parse(tempCoinsString as string)}
+        exchangeRates={exchangeRates}
       />
     </>
   );

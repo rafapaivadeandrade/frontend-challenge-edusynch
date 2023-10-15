@@ -1,8 +1,9 @@
 'use-client';
 import React from 'react';
-import { formatCurrency } from '../utils/transformCurrency';
+import { formatCurrency, formatPercentage } from '../utils/transformCurrency';
+import HistoryChart from './HistoryChart';
 
-function Info({ balance }: any) {
+function Info({ balance, exchangeRates }: any) {
   return (
     <div
       id="info"
@@ -38,15 +39,14 @@ function Info({ balance }: any) {
           className="flex flex-row bg-white rounded-lg shadow-md md:justify-between md:w-1/2 sm:flex-col sm:w-[128px]"
         >
           <div className="flex flex-row p-2 w-2/5 sm:w-full">
-            <div className="flex flex-col gap-3 sm:w-full">
+            <div className="flex flex-col gap-2 sm:w-full">
               <p className="text-[12px] text-Secondary md:text-base">
                 Daily Variation
               </p>
               <div className="sm:flex sm:gap-2 sm:justify-between">
                 <div className="flex flex-row items-center gap-1">
                   <img
-                    src="https://avatars.githubusercontent.com/u/51189721?v=4"
-                    // src={user?.avatar ? user?.avatar : AvatarIcon}
+                    src={exchangeRates[0]?.image}
                     width="32"
                     alt="avatar"
                     className="menu-dropdown-user-image"
@@ -55,11 +55,22 @@ function Info({ balance }: any) {
                     ETH
                   </p>
                 </div>
-                <p className="text-base text-Green sm:text-[14px]">+5,65%</p>
+                <p
+                  className={`text-base ${
+                    exchangeRates[0]?.price_change_percentage_24h >= 0
+                      ? 'text-Terciary'
+                      : 'text-Quaternary'
+                  } sm:text-[14px]`}
+                >
+                  {formatPercentage(
+                    exchangeRates[0]?.price_change_percentage_24h,
+                  )}
+                </p>
               </div>
             </div>
           </div>
-          <img src="/variation.png" alt="variation" />
+          {/* <img src="/variation.png" alt="variation" /> */}
+          <HistoryChart />
         </div>
         <div
           id="news"
@@ -73,7 +84,9 @@ function Info({ balance }: any) {
               <p className="text-[12px] text-Secondary">
                 New ElephantX NFT to be lauched!
               </p>
-              <p className="text-[12px] text-Yellow sm:hidden">Read more +</p>
+              <p className="text-[12px] text-Yellow cursor-pointer sm:hidden">
+                Read more +
+              </p>
             </div>
           </div>
           <img

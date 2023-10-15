@@ -1,8 +1,8 @@
 import React from 'react';
 import Select from './Select';
 import InputNumber from './InputNumber';
-import '../styles/input-number.css';
 import { CloseIcon } from '../icons/icons';
+import '../styles/input-number.css';
 
 export default function CryptoModal({
   onClose,
@@ -12,23 +12,7 @@ export default function CryptoModal({
   numberValue,
   setNumberValue,
   exchangeRates,
-  exchangeRatesvariation,
 }: any) {
-  const options = [
-    {
-      value: 2,
-      name: 'Rafael1',
-      imageLink: 'https://avatars.githubusercontent.com/u/51189721?v=4',
-      abbvr: 'BTC',
-    },
-    {
-      value: 4,
-      name: 'Rafael2',
-      imageLink: 'https://avatars.githubusercontent.com/u/51189721?v=4',
-      abbvr: 'BTC',
-    },
-  ];
-
   return (
     <div className="fixed inset-0 flex items-center justify-center bg-opacity-50 bg-gray-800 z-50">
       <div className="w-[448px] bg-white p-8 rounded-lg shadow-lg relative sm:w-[272px] sm:pt-4">
@@ -43,11 +27,9 @@ export default function CryptoModal({
         <div className="mb-4">
           <div className="relative">
             <Select
-              options={options}
               setSelectedItem={setSelectedItem}
               selectedItem={selectedItem}
               exchangeRates={exchangeRates}
-              exchangeRatesvariation={exchangeRatesvariation}
             />
           </div>
         </div>

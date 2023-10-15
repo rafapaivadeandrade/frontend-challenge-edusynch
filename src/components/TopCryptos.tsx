@@ -1,65 +1,93 @@
 import React from 'react';
 import { formatCurrency, formatPercentage } from '../utils/transformCurrency';
+import { useFetchCoins } from '../../lib/coinContext';
 
 export default function TopCryptos() {
-  // const { exchangeRates, exchangeRatesvariation } = useFetchCoins();
-  // const {
-  //   setActualCurrencies,
-  //   actualCurrencies,
-  //   currencies,
-  //   setExchangeRates,
-  // } = useFetchCoins();
-  const tempCoinsString = localStorage.getItem('tempCoins');
-  const exchangeRates = JSON.parse(tempCoinsString as string);
+  const { exchangeRates, setExchangeRates } = useFetchCoins();
   const [openIndexes, setOpenIndexes] = React.useState<number[]>([]);
   const [loading, setLoading] = React.useState<boolean>(false);
   const [showLoadLess, setShowLoadLess] = React.useState(false);
-  let count = 6;
-
-  // const fetchFakeData = () => {
-  //   const fakeDataUrl = `https://randomuser.me/api/?results=${count}&inc=name,gender,email,nat,picture&noinfo`;
-  //   fetch(fakeDataUrl)
-  //     .then(res => res.json())
-  //     .then(res => {
-  //       setData(res.results.slice(0, count));
-  //     });
-  // };
+  const count = Object.keys(exchangeRates).length;
 
   const onLoadMore = () => {
     setLoading(true);
     if (!showLoadLess) {
-      // currencies.push(
-      //   'litecoin',
-      //   'polkadot',
-      //   'chainlink',
-      //   'stellar',
-      //   'solana',
-      //   'binancecoin',
-      //   'eos',
-      // );
-      // count += 6;
-      // fetchFakeData(); // Fetch data with the updated count
-      // setActualCurrencies(prevState => {
-      //   return [
-      //     ...prevState,
-      //     'litecoin',
-      //     'polkadot',
-      //     'chainlink',
-      //     'stellar',
-      //     'solana',
-      //     'binancecoin',
-      //     'eos',
-      //   ];
-      // });
+      const newData = [
+        {
+          id: 'binancecoin',
+          symbol: 'bnb',
+          name: 'BNB',
+          image:
+            'https://assets.coingecko.com/coins/images/825/large/bnb-icon2_2x.png?1696501970',
+          current_price: 206.55,
+          price_change_percentage_24h: -0.8357340847290118,
+        },
+        {
+          id: 'solana',
+          symbol: 'sol',
+          name: 'Solana',
+          image:
+            'https://assets.coingecko.com/coins/images/4128/large/solana.png?1696504756',
+          current_price: 206.55,
+          price_change_percentage_24h: -0.8357340847290118,
+        },
+        {
+          id: 'polkadot',
+          symbol: 'dot',
+          name: 'Polkadot',
+          image:
+            'https://assets.coingecko.com/coins/images/12171/large/polkadot.png?1696512008',
+          current_price: 3.74,
+          price_change_percentage_24h: -0.009528719404281905,
+        },
+        {
+          id: 'litecoin',
+          symbol: 'ltc',
+          name: 'Litecoin',
+          image:
+            'https://assets.coingecko.com/coins/images/2/large/litecoin.png?1696501400',
+          current_price: 61.73,
+          price_change_percentage_24h: -0.0983741284613302,
+        },
+        {
+          id: 'chainlink',
+          symbol: 'link',
+          name: 'Chainlink',
+          image:
+            'https://assets.coingecko.com/coins/images/877/large/chainlink-new-logo.png?1696502009',
+          current_price: 7.3,
+          price_change_percentage_24h: -0.004951991691209301,
+        },
+        {
+          id: 'stellar',
+          symbol: 'xlm',
+          name: 'Stellar',
+          image:
+            'https://assets.coingecko.com/coins/images/100/large/Stellar_symbol_black_RGB.png?1696501482',
+          current_price: 0.104183,
+          price_change_percentage_24h: 0.84124,
+        },
+      ];
+      const newExchangeRates = {
+        ...exchangeRates,
+        ...newData.reduce((acc, item) => {
+          acc[item.id] = item;
+          return acc;
+        }, {}),
+      };
+      setExchangeRates(newExchangeRates);
     } else {
-      const filteredCurrencies = exchangeRates.filter(
-        (_, index) => index < count,
-      );
-      // setExchangeRates(filteredCurrencies);
-      localStorage.setItem('tempCoins', JSON.stringify(filteredCurrencies));
-      // const result = data.filter((_, index) => index < count);
-      // Removing an item from the 'data' array based on a condition
-      // setData(result);
+      // Handle "View less" logic
+      const newExchangeRates = { ...exchangeRates };
+
+      // Remove the last 6 items to revert to the previous state
+      const exchangeRateKeys = Object.keys(newExchangeRates);
+      const lastIndex = exchangeRateKeys.length - 1;
+      for (let i = lastIndex; i > lastIndex - 6; i--) {
+        delete newExchangeRates[exchangeRateKeys[i]];
+      }
+
+      setExchangeRates(newExchangeRates);
     }
     setLoading(false);
     setShowLoadLess(!showLoadLess);
@@ -172,7 +200,7 @@ export default function TopCryptos() {
                     </tr>
                     {openIndexes.includes(index) && (
                       <>
-                        <tr>
+                        <tr key={index}>
                           <td
                             className="text-Secondary text-12"
                             style={{ padding: '16px' }}

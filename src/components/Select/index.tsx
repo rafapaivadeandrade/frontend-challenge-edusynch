@@ -4,7 +4,6 @@ import { SelectProps } from '../../types';
 import './styles.css';
 
 const Select: React.FC<SelectProps> = ({
-  options,
   setSelectedItem,
   selectedItem,
   exchangeRates,
@@ -27,7 +26,9 @@ const Select: React.FC<SelectProps> = ({
               className="w-[25px] rounded-2xl"
             />
             <p className="text-TextBase text-[14px]">{selectedItem?.name}</p>
-            <p className="text-Secondary text-[14px]">{selectedItem?.symbol}</p>
+            <p className="text-Secondary text-[14px]">
+              {selectedItem?.symbol.toUpperCase()}
+            </p>
           </div>
         ) : (
           <p className="text-TextBase">{open ? 'Choose' : 'Choose Crypto'}</p>
@@ -43,7 +44,6 @@ const Select: React.FC<SelectProps> = ({
           open ? 'absolute' : 'hidden'
         }`}
       >
-        {/* {options.map((op: Option, index: number) => ( */}
         {Object.keys(exchangeRates).map((currency: any, index: number) => (
           <li
             key={index}
@@ -51,14 +51,12 @@ const Select: React.FC<SelectProps> = ({
             onClick={() => [
               setIsCryptoAdded(true),
               setOpen(false),
-              console.log(exchangeRates[currency]),
               setSelectedItem(exchangeRates[currency]),
             ]}
           >
             <div className="flex flex-row gap-2 items-center">
               <img
                 src={exchangeRates[currency].image}
-                // src={user?.avatar ? user?.avatar : AvatarIcon}
                 width="12"
                 alt=""
                 className="w-[25px] rounded-2xl"

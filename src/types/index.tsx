@@ -44,9 +44,12 @@ interface NavProps {
 }
 
 interface SelectProps {
-  name: string;
-  options: TransferOption[];
-  isTransfered: TransferOption[];
+  name?: string;
+  options?: TransferOption[];
+  exchangeRates?: { [key: string]: Option };
+  setSelectedItem?: (item: Option) => void;
+  selectedItem?: Option;
+  isTransfered?: TransferOption[];
   setIsTransfered?: (item: TransferOption) => void;
 }
 

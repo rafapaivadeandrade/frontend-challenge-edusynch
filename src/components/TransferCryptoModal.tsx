@@ -2,8 +2,8 @@
 import React from 'react';
 import Select2 from './Select/index2';
 import InputNumber from './InputNumber';
-import '../styles/input-number.css';
 import { CloseIcon } from '../icons/icons';
+import '../styles/input-number.css';
 
 export default function TransferCryptoModal({
   onClose,
@@ -36,7 +36,7 @@ export default function TransferCryptoModal({
         <h2 className="text-1xl font-bold mb-6 text-center text-TextBase sm:text-base">
           Transfer Crypto
         </h2>
-        <div className="flex flex-row items-center justify-center border-t-1 gap-6 py-6 sm:py-4">
+        <div className="flex flex-row items-center justify-center border-t-1 gap-6 py-6 sm:py-4 sm:gap-2">
           <p className="text-[14px] text-TextButton sm:text-[12px]">
             You are transfering
           </p>
@@ -48,7 +48,9 @@ export default function TransferCryptoModal({
               className="w-[25px] rounded-2xl"
             />
             <p className="text-TextBase text-[14px]">{selectedItem?.name}</p>
-            <p className="text-Secondary text-[14px]">{selectedItem?.symbol}</p>
+            <p className="text-Secondary text-[14px]">
+              {selectedItem?.symbol.toUpperCase()}
+            </p>
           </div>
         </div>
         <div className="flex flex-col mb-4 gap-2">

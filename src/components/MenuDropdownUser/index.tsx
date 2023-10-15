@@ -37,7 +37,7 @@ export const MenuDropDownUser = () => {
         {showMenu && (
           <nav className={`menu-dropdown-nav`}>
             <div
-              className={`w-32 h-[55px] cursor-pointer flex flex-row gap-4 items-center justify-center text-white
+              className={`w-32 sm:w-20 sm:h-[50px] h-[55px] sm:gap-2 cursor-pointer flex flex-row gap-4 items-center justify-center text-white
           before:content-[att]
           before:absolute
           before:px-3 before:py-2
@@ -56,7 +56,9 @@ export const MenuDropDownUser = () => {
               onClick={() => router.push('/')}
             >
               <LogoutIcon />
-              <p className="font-inter text-[14px] text-ModalText">Logout</p>
+              <p className="font-inter text-[14px] text-ModalText sm:-mt-1">
+                Logout
+              </p>
             </div>
           </nav>
         )}

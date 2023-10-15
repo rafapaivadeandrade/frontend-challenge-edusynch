@@ -37,11 +37,9 @@ export const useFetchWallet = () => {
         // Check if existingValue and newValue are numbers
         if (!isNaN(existingValue) && !isNaN(newValue)) {
           if (isTransfered?.boolean === false && existingValue >= 0) {
-            console.log('test1');
             // Downgrade the values
             const downgradedValue = existingValue - newValue;
             if (downgradedValue <= 0) {
-              console.log('test1.1', downgradedValue);
               // Reset isTransfered?.boolean to undefined
               setIsTransfered(prevState => ({
                 ...prevState,
@@ -59,18 +57,12 @@ export const useFetchWallet = () => {
               //   ...wallet.slice(existingItemIndex + 1),
               // ];
               // setWallet(updatedWallet);
-
-              console.log('newValue:', newValue);
               setWallet([...wallet]);
               if (existingValue < newValue) {
-                console.log('newValue1:', newValue);
-
                 setBalance(prevValue => {
                   return prevValue - existingValue;
                 });
               } else {
-                console.log('newValue2:', newValue);
-
                 setBalance(prevValue => {
                   return prevValue - newValue;
                 });
@@ -78,7 +70,6 @@ export const useFetchWallet = () => {
             } else {
               // Convert it back to string
               existingItem.current_price = downgradedValue;
-              console.log('test1.2', existingItem.current_price);
               setBalance(prevValue => {
                 return prevValue - downgradedValue;
               });
