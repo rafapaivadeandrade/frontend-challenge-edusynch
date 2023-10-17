@@ -2,6 +2,7 @@
 import React from 'react';
 import useAxios from '../src/hooks/useAxios';
 import { MockedData } from './mockedData';
+import axios from 'axios';
 
 const Coins = React.createContext({ coins: null, loading: false });
 const currencies = ['bitcoin', 'ethereum', 'cardano', 'ripple'];
@@ -106,9 +107,9 @@ export const useFetchCoins = () => {
 
           await new Promise(resolve => setTimeout(resolve, delayDuration)); // Delay before the request
 
-          const { response } = useAxios(
+          const response = await axios.get(
             // `https://cors-anywhere.herokuapp.com/https://api.coingecko.com/api/v3/coins/markets`,
-            `coins/markets?vs_currency=usd&ids=${currency}&order=market_cap_desc&per_page=3&page=1&sparkline=false`,
+            `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=${currency}&order=market_cap_desc&per_page=3&page=1&sparkline=false`,
             // {
             //   params: {
             //     vs_currency: 'usd', // Replace with your preferred currency

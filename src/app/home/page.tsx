@@ -107,6 +107,7 @@ const Home: React.FC = () => {
               >
                 {imagesData.map((image, index: number) => (
                   <motion.div
+                    key={index}
                     className={`pointer-events-none min-h-[200px] rounded overflow-hidden bg-white ${
                       index === 0
                         ? 'min-w-[32%] flex justify-end'

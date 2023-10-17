@@ -21,7 +21,7 @@ const CardContainer: React.FC<CardContainerProps> = ({ data }) => {
       <motion.div
         className="w-max flex rounded-xl gap-2"
         drag="x"
-        dragConstraints={{ right: 0, left: -width - 30 }}
+        dragConstraints={{ right: 0, left: -width - 40 }}
         initial={{ x: 100 }}
         animate={{ x: 0 }}
         transition={{ duration: 0.8 }}

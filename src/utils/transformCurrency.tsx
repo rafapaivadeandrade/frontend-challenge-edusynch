@@ -11,7 +11,7 @@ const formatPercentage = (value: number) => {
   return new Intl.NumberFormat('en-US', {
     style: 'percent',
     signDisplay: 'exceptZero',
-  }).format(value * 100);
+  }).format(value);
 };
 
 export { formatCurrency, formatPercentage };
