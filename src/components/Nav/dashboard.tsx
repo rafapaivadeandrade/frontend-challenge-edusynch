@@ -19,7 +19,6 @@ const Nav: React.FC<NavProps> = ({ setOpen }) => {
           shadow-md bg-gray-100 bg-opacity-50
           px-10
           py-4
-          md:bg-white
           sm:flex-nowrap
           sm:px-6
         "

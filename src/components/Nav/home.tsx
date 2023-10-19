@@ -10,9 +10,16 @@ import {
 } from '../../utils/transformCurrency';
 import { NavProps } from '../../types';
 import '../../styles/carousel.css';
+import { useQuery } from '@tanstack/react-query';
 
 const Nav: React.FC<NavProps> = ({ setOpen }) => {
   const { exchangeRates } = useFetchCoins();
+  // const { data } = useQuery({
+  //   queryKey: ['stream-hydrate-users'],
+  //   queryFn: () => fetchCryptoDatas(),
+  //   staleTime: 5 * 1000,
+  //   refetchOnWindowFocus: false,
+  // });
   // const tempCoinsString = localStorage.getItem('tempCoins');
   // const exchangeRates = JSON.parse(tempCoinsString as string);
   const [isSignInModalOpen, setIsSignInModalOpen] = React.useState(false);
@@ -68,8 +75,8 @@ const Nav: React.FC<NavProps> = ({ setOpen }) => {
           sm:items-start
         "
     >
-      <div className="flex justify-between lg:w-full md:items-center md:w-full md:px-12">
-        <div className="flex gap-6 items-center md:py-3 sm:w-full sm:justify-start sm:pl-4 sm:gap-32">
+      <div className="flex justify-between lg:w-full md:items-center md:w-full md:px-12 sm:w-full">
+        <div className="flex gap-6 items-center md:py-3 sm:w-full sm:justify-between sm:px-4 sm:gap-0">
           <Link href="/" passHref legacyBehavior>
             <img
               className="cursor-pointer"
@@ -105,9 +112,11 @@ const Nav: React.FC<NavProps> = ({ setOpen }) => {
                 (currency: any, index: number) => (
                   <div key={index} className="flex flex-row gap-2">
                     <span className="text-base text-TextBase">
+                      {/* {data[currency].symbol.toUpperCase()} */}
                       {exchangeRates[currency].symbol.toUpperCase()}
                     </span>
                     <span className="text-base text-TextBase">
+                      {/* {formatCurrency(data[currency].current_price)} */}
                       {formatCurrency(exchangeRates[currency].current_price)}
                     </span>
                     {/* <span
@@ -120,12 +129,20 @@ const Nav: React.FC<NavProps> = ({ setOpen }) => {
                       }`}
                     > */}
                     <span
+                      // className={`text-base ${
+                      //   data[currency].price_change_percentage_24h >= 0
+                      //     ? 'text-Terciary'
+                      //     : 'text-Quaternary'
+                      // }`}
                       className={`text-base ${
                         exchangeRates[currency].price_change_percentage_24h >= 0
                           ? 'text-Terciary'
                           : 'text-Quaternary'
                       }`}
                     >
+                      {/* {formatPercentage(
+                      data[currency].price_change_percentage_24h,
+                    )} */}
                       {formatPercentage(
                         exchangeRates[currency].price_change_percentage_24h,
                       )}
@@ -160,22 +177,30 @@ const Nav: React.FC<NavProps> = ({ setOpen }) => {
       </div>
       <div className="carousel-container w-[360px] lg:hidden md:flex md:w-full sm:flex">
         <div className="carousel-inner flex flex-row gap-6">
-          {/* {Object.keys(exchangeRates).map((currency: any, index: number) => ( */}
           {Object.keys(exchangeRates).map((currency: any, index: number) => (
+            // {data?.map((currency: any, index: number) => (
             <div key={index} className="flex flex-row gap-2">
               <span className="text-base text-TextBase">
+                {/* {data[currency].symbol.toUpperCase()} */}
                 {exchangeRates[currency].symbol.toUpperCase()}
               </span>
               <span className="text-base text-TextBase">
+                {/* {formatCurrency(data[currency].current_price)} */}
                 {formatCurrency(exchangeRates[currency].current_price)}
               </span>
               <span
+                // className={`text-base ${
+                // data[currency].price_change_percentage_24h >= 0
+                // ? 'text-Terciary'
+                // : 'text-Quaternary'
+                // }`}
                 className={`text-base ${
                   exchangeRates[currency].price_change_percentage_24h >= 0
                     ? 'text-Terciary'
                     : 'text-Quaternary'
                 }`}
               >
+                {/* {formatPercentage(data[currency].price_change_percentage_24h)} */}
                 {formatPercentage(
                   exchangeRates[currency].price_change_percentage_24h,
                 )}

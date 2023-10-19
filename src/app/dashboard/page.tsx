@@ -10,7 +10,7 @@ export const metadata = {
 export default function Page() {
   return (
     <Layout>
-      <div className="bg-Dashboard w-full h-screen pl-36 pr-16 pt-14 md:pl-12 md:pr-12 sm:px-6">
+      <div className="bg-Dashboard w-full h-full pl-36 pr-16 pt-14 md:pl-12 md:pr-12 sm:px-6">
         <div id="container" className="flex flex-col gap-8">
           <WalletContainer />
         </div>

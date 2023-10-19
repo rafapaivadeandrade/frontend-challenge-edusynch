@@ -1,3 +1,4 @@
+import Providers from '../utils/provider';
 import '../styles/tailwind.css';
 
 export default function RootLayout({
@@ -12,7 +13,10 @@ export default function RootLayout({
         head.tsx. Find out more at https://beta.nextjs.org/docs/api-reference/file-conventions/head
       */}
       <head />
-      <body className="w-screen h-screen">{children}</body>
+      <body className="w-screen h-screen min-h-[740px] relative">
+        {/* <Providers>{children}</Providers> */}
+        {children}
+      </body>
     </html>
   );
 }

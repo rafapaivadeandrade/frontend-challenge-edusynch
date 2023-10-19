@@ -5,8 +5,6 @@ import { useFetchWallet } from '../../../lib/walletContext';
 import { useFetchCoins } from '../../../lib/coinContext';
 
 const WalletContainer: React.FC = () => {
-  // To retrieve tempCoins from local storage
-  // const tempCoinsString = localStorage.getItem('tempCoins');
   const { exchangeRates } = useFetchCoins();
   const {
     wallet,

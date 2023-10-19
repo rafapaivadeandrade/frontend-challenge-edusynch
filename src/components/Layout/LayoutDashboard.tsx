@@ -44,7 +44,7 @@ const Layout = ({ children }: LayoutProps) => {
           <main className={`w-full relative`}>
             {/* Add an overlay div */}
             {open && (
-              <div className="fixed top-[65px] left-[240px] w-full h-full bg-gray-800 opacity-50 z-50 sm:left-[224px]" />
+              <div className="fixed top-[65px] left-[240px] w-full h-full bg-gray-800 opacity-50 z-50 md:top-0 sm:top-0 sm:left-[224px]" />
             )}
             <div
               className="

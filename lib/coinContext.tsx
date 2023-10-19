@@ -3,6 +3,7 @@ import React from 'react';
 import useAxios from '../src/hooks/useAxios';
 import { MockedData } from './mockedData';
 import axios from 'axios';
+import { useQuery } from '@tanstack/react-query';
 
 const Coins = React.createContext({ coins: null, loading: false });
 const currencies = ['bitcoin', 'ethereum', 'cardano', 'ripple'];
@@ -137,10 +138,10 @@ export const useFetchCoins = () => {
       // // Store tempCoins in local storage
       // localStorage.setItem('tempCoins', JSON.stringify(tempCoins));
 
-      setExchangeRates(tempCoins);
-      // setExchangeRates(MockedData);
+      // setExchangeRates(tempCoins);
     };
-    fetchCryptoData(currencies);
+    setExchangeRates(MockedData);
+    // fetchCryptoData(currencies);
   }, []);
 
   return {
@@ -152,3 +153,35 @@ export const useFetchCoins = () => {
     currencies,
   };
 };
+
+// export const fetchCryptoDatas = async () => {
+//   const currencies = ['bitcoin', 'ethereum', 'cardano', 'ripple'];
+
+//   const responses = await Promise.all(
+//     currencies.map(async currency => {
+//       const delayDuration = 350; // Delay in milliseconds (1000 ms = 1 second)
+
+//       await new Promise(resolve => setTimeout(resolve, delayDuration)); // Delay before the request
+//       const response = await fetch(
+//         `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=${currency}&order=market_cap_desc&per_page=3&page=1&sparkline=false`,
+//       );
+//       if (!response.ok) {
+//         throw new Error('Network response was not ok');
+//       }
+//       return response.json();
+//     }),
+//   );
+
+//   const tempCoins = responses.map(crypto => ({
+//     id: crypto[0].id,
+//     symbol: crypto[0].symbol,
+//     name: crypto[0].name,
+//     image: crypto[0].image,
+//     current_price: crypto[0].current_price,
+//     price_change_percentage_24h: crypto[0].price_change_percentage_24h,
+//   }));
+
+//   console.log(tempCoins);
+
+//   return tempCoins;
+// };

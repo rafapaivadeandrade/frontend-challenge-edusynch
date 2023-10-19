@@ -9,7 +9,7 @@ const Menu: React.FC<MenuProps> = ({ isOpen }) => {
 
   return (
     <aside
-      className={`flex flex-col md:fixed sm:fixed w-[86px] md:w-60 gap-8 lg:block xxsm:hidden h-screen border-1 sm:z-50 sm:ease-in-out sm:duration-300 md:bg-white md:z-50 md:ease-in-out md:duration-300 sm:w-[224px]  sm:bg-white${
+      className={`flex flex-col md:absolute md:top-0 sm:absolute sm:top-0 w-[86px] md:w-60 gap-8 lg:block xxsm:hidden h-screen border-1 sm:z-50 sm:ease-in-out sm:duration-300 md:bg-white md:z-50 md:ease-in-out md:duration-300 sm:w-[224px] sm:bg-white ${
         isOpen
           ? 'md:translate-x-0 sm:translate-x-0'
           : 'md:-translate-x-full sm:-translate-x-full'
